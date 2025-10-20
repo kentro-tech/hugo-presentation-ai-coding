@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iterative Development with AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding: 4rem 6rem;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #fff;
+            line-height: 1.3;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: #a0a0a0;
+        }
+
+        p, li {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: #c0c0c0;
+        }
+
+        ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        li {
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #6b9bd1;
+        }
+
+        code {
+            background: #1a1a1a;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.9em;
+            color: #6b9bd1;
+        }
+
+        pre {
+            background: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-left: 3px solid #6b9bd1;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #d0d0d0;
+        }
+
+        .highlight {
+            color: #6b9bd1;
+            font-weight: 600;
+        }
+
+        .emphasis {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            color: #505050;
+            font-size: 0.9rem;
+        }
+
+        .progress {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            color: #505050;
+            font-size: 0.9rem;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #808080;
+            margin-top: 0.5rem;
+        }
+
+        .section-label {
+            font-size: 1rem;
+            color: #6b9bd1;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .big-number {
+            font-size: 6rem;
+            font-weight: 700;
+            color: #6b9bd1;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .cycle {
+            background: #1a1a1a;
+            padding: 2rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            border-left: 4px solid #6b9bd1;
+        }
+
+        .cycle-step {
+            font-size: 1.4rem;
+            margin: 0.5rem 0;
+            padding-left: 2rem;
+        }
+
+        .small-text {
+            font-size: 1rem;
+            color: #808080;
+            margin-top: 1rem;
+        }
+
+        .image-slide {
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .image-slide img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Image -->
+<div class="slide active image-slide">
+    <img src="Slide 1.png" alt="Slide 1">
+</div>
+
+<!-- Slide 2: Image -->
+<div class="slide image-slide">
+    <img src="Slide 2.png" alt="Slide 2">
+</div>
+
+<!-- Slide 3: Image -->
+<div class="slide image-slide">
+    <img src="Slide 3.png" alt="Slide 3">
+</div>
+
+<!-- Slide 4: Title -->
+<div class="slide">
+    <h1>Iterative Development with AI</h1>
+    <p class="subtitle">Build Better Code Through Small Steps & Active Learning</p>
+</div>
+
+<!-- Slide 2: The Problem -->
+<div class="slide">
+    <div class="section-label">The Problem</div>
+    <h2>AI Generates Code You Don't Understand</h2>
+    <ul>
+        <li>Large chunks of code appear instantly</li>
+        <li>You don't fully understand what was created</li>
+        <li>Technical debt accumulates quickly</li>
+        <li>You can't maintain or modify the code effectively</li>
+    </ul>
+</div>
+
+<!-- Slide 3: Why Bad Patterns Are Easy -->
+<div class="slide">
+    <div class="section-label">Why This Happens</div>
+    <h2>AI Agents Make Bad Patterns Easy</h2>
+    <ul>
+        <li>✖️ Encourage working in larger chunks</li>
+        <li>✖️ Create code that seems to work but is bad</li>
+        <li>✖️ Make being a passive participant easy</li>
+        <li>✖️ Be very fun!</li>
+    </ul>
+    <p style="margin-top: 2rem;" class="emphasis">The path of least resistance leads to technical debt</p>
+</div>
+
+<!-- Slide 4: The Solution -->
+<div class="slide">
+    <div class="section-label">The Solution</div>
+    <h2>Spec-First Iterative Development</h2>
+    <ul>
+        <li>Define specifications <span class="emphasis">before</span> writing code (often just 2-4 steps)</li>
+        <li>Break work into <span class="emphasis">small, testable steps</span></li>
+        <li>Build → Test → Review → Refactor <span class="emphasis">after every step</span></li>
+        <li>Stay actively engaged and learning throughout</li>
+    </ul>
+</div>
+
+<!-- Slide 5: The Process Overview -->
+<div class="slide">
+    <div class="section-label">Four Steps</div>
+    <h2>From Documents to Working Software</h2>
+    <div class="big-number">1</div>
+    <p class="emphasis">Create Context</p>
+    <div class="big-number">2</div>
+    <p class="emphasis">Create Plan</p>
+    <div class="big-number">3</div>
+    <p class="emphasis">Break Into Small Todos</p>
+    <div class="big-number">4</div>
+    <p class="emphasis">Build-Test-Verify Loop</p>
+</div>
+
+<!-- Slide 6: Step 1 - Context -->
+<div class="slide">
+    <div class="section-label">Step 1</div>
+    <h2>Create Context</h2>
+    <p>Provide AI with the tools and knowledge to build <span class="emphasis">and verify</span></p>
+    <pre><code># Documentation
+- LLMs.txt files for framework/library docs
+- MCP servers for personalized context
+- API documentation and examples
+
+# Testing Tools
+- Playwright for web development testing
+- Profilers for performance validation
+- Framework-specific test tools</code></pre>
+    <p class="small-text">AI needs both <span class="highlight">how to build</span> and <span class="highlight">how to test</span> that it works</p>
+</div>
+
+<!-- Slide 7: Step 2 - Plan -->
+<div class="slide">
+    <div class="section-label">Step 2</div>
+    <h2>Create a Plan</h2>
+    <p>Define the <span class="emphasis">"what"</span> — the high-level requirements</p>
+    <pre><code># Product Requirements
+
+## Core User Experience
+Three-column layout:
+1. Cards (Left): Visual cards representing elements
+2. Cycles (Center): Cards representing story beats
+3. Outline (Right): Real-time visualization
+
+## Data Model
+- Cards table with schema: id, type, content, level
+- Operations: add, edit, delete cards</code></pre>
+    <p class="small-text">Can be comprehensive or just <span class="highlight">the next 2-4 steps</span> (a few minutes to write)</p>
+</div>
+
+<!-- Slide 8: Step 3 - Todos -->
+<div class="slide">
+    <div class="section-label">Step 3</div>
+    <h2>Break Into Small Todos</h2>
+    <p>Convert plan into <span class="emphasis">specific, testable steps</span></p>
+    <pre><code># Development Plan
+
+## Step 1: Verify starter app runs
+- Ensure app runs successfully
+- Verify you can access homepage
+- Confirm correct environment
+
+## Step 2: Create user input form
+- Add form with text inputs
+- Display form on homepage
+- Verify form renders correctly
+
+## Step 3: Save form inputs to database
+- Create SQLite database and table
+- Add endpoint to save form data
+- Verify data persists after submission</code></pre>
+    <p class="small-text">Each step is <span class="highlight">small</span> and <span class="highlight">verifiable</span> (AI can help - often less than a minute)</p>
+</div>
+
+<!-- Slide 9: Small Steps Matter -->
+<div class="slide">
+    <div class="section-label">Why Small Steps?</div>
+    <h2>One Feature at a Time</h2>
+    <ul>
+        <li>Each todo adds <span class="emphasis">one complete, testable feature</span></li>
+        <li>Small enough to understand fully</li>
+        <li>Easy to verify it works correctly</li>
+        <li>Easy to fix if something breaks</li>
+    </ul>
+    <p style="margin-top: 2rem; font-size: 1.5rem;" class="emphasis">After each step, you test before proceeding</p>
+</div>
+
+<!-- Slide 10: The Build-Test-Verify Loop -->
+<div class="slide">
+    <div class="section-label">Step 4</div>
+    <h2>The Build-Test-Verify Loop</h2>
+    <div class="cycle">
+        <div class="cycle-step"><span class="highlight">1. Instruct:</span> Ask AI to implement one todo</div>
+        <div class="cycle-step"><span class="highlight">2. Test:</span> Try it as a user would</div>
+        <div class="cycle-step"><span class="highlight">3. Verify:</span> Check it works correctly</div>
+        <div class="cycle-step"><span class="highlight">4. Review:</span> Read and understand the code</div>
+        <div class="cycle-step"><span class="highlight">5. Learn:</span> Research anything unfamiliar or curious, write that code yourself</div>
+        <div class="cycle-step"><span class="highlight">6. Refactor:</span> Improve before moving on</div>
+    </div>
+    <p class="small-text">Repeat for every single todo</p>
+</div>
+
+<!-- Slide 11: Testing After Every Todo -->
+<div class="slide">
+    <div class="section-label">Critical Practice</div>
+    <h2>Test After Every Single Todo</h2>
+    <ul>
+        <li>Don't batch multiple todos before testing</li>
+        <li>Test as a <span class="emphasis">user</span> would use it</li>
+        <li>Automated tests are good, but <span class="emphasis">manual testing is essential</span></li>
+        <li>If it fails, fix it before moving forward</li>
+    </ul>
+    <p style="margin-top: 2rem;" class="emphasis">This catches problems immediately while context is fresh</p>
+</div>
+
+<!-- Slide 12: Manual Review -->
+<div class="slide">
+    <div class="section-label">After Testing</div>
+    <h2>Manual Code Review</h2>
+    <ul>
+        <li>Read every line the AI generated</li>
+        <li>Understand <span class="emphasis">what</span> it does and <span class="emphasis">why</span></li>
+        <li>Check against your style guidelines</li>
+        <li>Look for potential issues or improvements</li>
+    </ul>
+    <p style="margin-top: 2rem;" class="emphasis">Don't just accept code that "works"</p>
+</div>
+
+<!-- Slide 13: Refactoring -->
+<div class="slide">
+    <div class="section-label">Before Moving On</div>
+    <h2>Refactor Manually</h2>
+    <ul>
+        <li>Improve code structure and clarity</li>
+        <li>Fix any issues you spotted in review</li>
+        <li>Ensure it matches your standards</li>
+        <li>Make it maintainable for the future</li>
+    </ul>
+    <p style="margin-top: 2rem; font-size: 1.5rem;" class="highlight">Only then move to the next todo</p>
+</div>
+
+<!-- Slide 14: Active Learning -->
+<div class="slide">
+    <div class="section-label">The Key Difference</div>
+    <h2>Active Learning Throughout</h2>
+    <ul>
+        <li>You're <span class="emphasis">engaged</span> at every step</li>
+        <li>You <span class="emphasis">understand</span> what's being built</li>
+        <li>You <span class="emphasis">learn</span> from the code AI generates</li>
+        <li>You can <span class="emphasis">maintain</span> and modify it later</li>
+    </ul>
+    <p style="margin-top: 2rem;" class="emphasis">You're directing, not just watching</p>
+</div>
+
+<!-- Slide 15: Why This Works -->
+<div class="slide">
+    <div class="section-label">Benefits</div>
+    <h2>Why This Process Works</h2>
+    <ul>
+        <li><span class="emphasis">Fast:</span> Rapid prototyping with clear direction</li>
+        <li><span class="emphasis">Better Specs:</span> Testing reveals what works</li>
+        <li><span class="emphasis">No Technical Debt:</span> You understand everything built</li>
+        <li><span class="emphasis">Accessible:</span> Non-coders can learn this approach</li>
+    </ul>
+</div>
+
+<!-- Slide 16: Summary -->
+<div class="slide">
+    <div class="section-label">Summary</div>
+    <h2>The Process</h2>
+    <ol style="list-style: decimal; margin-left: 2rem;">
+        <li style="padding-left: 1rem;">Create context documentation</li>
+        <li style="padding-left: 1rem;">Define a clear plan</li>
+        <li style="padding-left: 1rem;">Break into small, testable todos</li>
+        <li style="padding-left: 1rem;">For each todo:
+            <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                <li>Build it</li>
+                <li>Test it manually</li>
+                <li>Review the code</li>
+                <li>Refactor it</li>
+                <li>Then move to next</li>
+            </ul>
+        </li>
+    </ol>
+    <p style="margin-top: 2rem;" class="emphasis">Stay actively engaged. Learn continuously.</p>
+</div>
+
+<!-- Slide 17: End -->
+<div class="slide">
+    <h1>Build Better Code</h1>
+    <p class="subtitle">One Small Step at a Time</p>
+</div>
+
+<div class="progress">
+    <span id="slideNumber">1</span> / <span id="totalSlides">16</span>
+</div>
+
+<div class="controls">
+    ← → to navigate
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const slideNumber = document.getElementById('slideNumber');
+    const totalSlides = document.getElementById('totalSlides');
+
+    totalSlides.textContent = slides.length;
+
+    function showSlide(n) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (n + slides.length) % slides.length;
+        slides[currentSlide].classList.add('active');
+        slideNumber.textContent = currentSlide + 1;
+    }
+
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+        showSlide(currentSlide - 1);
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+            e.preventDefault();
+            nextSlide();
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            prevSlide();
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (e.clientX > window.innerWidth / 2) {
+            nextSlide();
+        } else {
+            prevSlide();
+        }
+    });
+</script>
+
+</body>
+</html>
