@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iterative Development with AI</title>
     <style>
+        :root {
+            --pad-block: clamp(2rem, 6vh, 4.5rem);
+            --pad-inline: clamp(2rem, 6vw, 6rem);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -21,60 +26,84 @@
         .slide {
             display: none;
             min-height: 100vh;
-            padding: 4rem 6rem;
+            padding: var(--pad-block) var(--pad-inline);
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            gap: clamp(0.75rem, 2vh, 1.5rem);
         }
 
         .slide.active {
             display: flex;
         }
 
+        .slide > p,
+        .slide > h1,
+        .slide > h2,
+        .slide > h3 {
+            max-width: min(95vw, 75ch);
+        }
+
+        .slide > ul {
+            width: 100%;
+            max-width: none;
+        }
+
         h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2.75rem, 6.5vw, 5.75rem);
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.25rem;
+            color: #fff;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4.5vw, 4rem);
+            font-weight: 650;
+            margin-bottom: clamp(0.75rem, 1.5vh, 1.25rem);
             color: #fff;
             line-height: 1.2;
         }
 
-        h2 {
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            color: #fff;
-            line-height: 1.3;
-        }
-
         h3 {
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
+            font-size: clamp(1.25rem, 2.5vw, 2rem);
+            font-weight: 550;
+            margin-bottom: 0.75rem;
             color: #a0a0a0;
         }
 
         p, li {
-            font-size: 1.3rem;
-            line-height: 1.8;
-            margin-bottom: 1rem;
+            font-size: clamp(1.4rem, 2.2vw, 2.2rem);
+            line-height: 1.5;
+            margin-bottom: clamp(1rem, 2vh, 1.5rem);
             color: #c0c0c0;
         }
 
         ul {
             list-style: none;
             margin-left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(1.5rem, 3vh, 2.5rem);
         }
 
         li {
-            padding-left: 2rem;
+            padding-left: 2.5rem;
             position: relative;
+            margin-bottom: 0;
         }
 
-        li:before {
+        ul li:before {
             content: "→";
             position: absolute;
             left: 0;
             color: #6b9bd1;
+            font-size: 1.4em;
+            line-height: 1;
+            transform: translateY(0.05em);
+        }
+
+        ol > li:before {
+            content: none;
         }
 
         code {
@@ -88,18 +117,19 @@
 
         pre {
             background: #1a1a1a;
-            padding: 1.5rem;
+            padding: clamp(1rem, 2vh, 1.5rem);
             border-radius: 6px;
-            overflow-x: auto;
-            margin: 1.5rem 0;
+            overflow: auto;
+            margin: clamp(1rem, 2vh, 1.5rem) 0;
             border-left: 3px solid #6b9bd1;
         }
 
         pre code {
             background: transparent;
             padding: 0;
-            font-size: 0.95rem;
-            line-height: 1.6;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: clamp(1rem, 1.5vw, 1.25rem);
+            line-height: 1.5;
             color: #d0d0d0;
         }
 
@@ -130,25 +160,25 @@
         }
 
         .subtitle {
-            font-size: 1.5rem;
-            color: #808080;
-            margin-top: 0.5rem;
+            font-size: clamp(1.25rem, 2.2vw, 2rem);
+            color: #8a8a8a;
+            margin-top: 0.25rem;
         }
 
         .section-label {
-            font-size: 1rem;
+            font-size: clamp(1.1rem, 1.8vw, 1.6rem);
             color: #6b9bd1;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-bottom: 1rem;
+            margin-bottom: clamp(0.75rem, 1.5vh, 1.25rem);
         }
 
         .big-number {
-            font-size: 6rem;
-            font-weight: 700;
+            font-size: clamp(4rem, 18vw, 14rem);
+            font-weight: 800;
             color: #6b9bd1;
-            line-height: 1;
-            margin-bottom: 1rem;
+            line-height: 0.95;
+            margin-bottom: clamp(0.5rem, 1.25vh, 1rem);
         }
 
         .cycle {
@@ -166,21 +196,88 @@
         }
 
         .small-text {
-            font-size: 1rem;
+            font-size: clamp(0.95rem, 1.2vw, 1.1rem);
             color: #808080;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .title-slide {
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .title-slide h1 {
+            font-size: clamp(3.5rem, 8vw, 8rem);
+            line-height: 1;
+            margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+        }
+
+        .title-slide .subtitle {
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+        }
+
+        .code-slide pre {
+            flex: 1;
+            min-height: 30vh;
         }
 
         .image-slide {
+            padding: 0;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
         }
 
         .image-slide img {
-            max-width: 90%;
-            max-height: 90vh;
+            width: min(100vw, 100%);
+            height: min(100vh, 100%);
             object-fit: contain;
+        }
+
+        .image-slide.cover img {
+            object-fit: cover;
+        }
+
+        .cta-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(1.5rem, 4vw, 4rem);
+            margin: clamp(1rem, 3vh, 2rem) 0;
+        }
+
+        .cta-row img {
+            width: clamp(180px, 18vw, 320px);
+            height: clamp(180px, 18vw, 320px);
+        }
+
+        .cta-row h3 {
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+        }
+
+        .cta-row p,
+        .cta-row a {
+            font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(2rem, 5vw, 4rem);
+            margin-top: clamp(1rem, 3vh, 2rem);
+        }
+
+        .step-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .step-item .big-number {
+            margin-bottom: clamp(0.5rem, 1vh, 0.75rem);
+        }
+
+        .step-item .emphasis {
+            font-size: clamp(1.3rem, 2vw, 1.8rem);
         }
     </style>
 </head>
@@ -202,7 +299,7 @@
 </div>
 
 <!-- Slide 4: Title -->
-<div class="slide">
+<div class="slide title-slide">
     <h1>Iterative Development with AI</h1>
     <p class="subtitle">Build Better Code Through Small Steps & Active Learning</p>
 </div>
@@ -248,21 +345,33 @@
 <div class="slide">
     <div class="section-label">Four Steps</div>
     <h2>From Documents to Working Software</h2>
-    <div class="big-number">1</div>
-    <p class="emphasis">Create Context</p>
-    <div class="big-number">2</div>
-    <p class="emphasis">Create Plan</p>
-    <div class="big-number">3</div>
-    <p class="emphasis">Break Into Small Todos</p>
-    <div class="big-number">4</div>
-    <p class="emphasis">Build-Test-Verify Loop</p>
+    <div class="steps-grid">
+        <div class="step-item">
+            <div class="big-number">1</div>
+            <p class="emphasis">Create Context</p>
+        </div>
+        <div class="step-item">
+            <div class="big-number">2</div>
+            <p class="emphasis">Create Plan</p>
+        </div>
+        <div class="step-item">
+            <div class="big-number">3</div>
+            <p class="emphasis">Break Into Small Todos</p>
+        </div>
+        <div class="step-item">
+            <div class="big-number">4</div>
+            <p class="emphasis">Build-Test-Verify Loop</p>
+        </div>
+    </div>
 </div>
 
 <!-- Slide 6: Step 1 - Context -->
-<div class="slide">
-    <div class="section-label">Step 1</div>
-    <h2>Create Context</h2>
-    <p>Provide AI with the tools and knowledge to build <span class="emphasis">and verify</span></p>
+<div class="slide code-slide">
+    <div>
+        <div class="section-label">Step 1</div>
+        <h2>Create Context</h2>
+        <p>Provide AI with the tools and knowledge to build <span class="emphasis">and verify</span></p>
+    </div>
     <pre><code># Documentation
 - LLMs.txt files for framework/library docs
 - MCP servers for personalized context
@@ -276,10 +385,12 @@
 </div>
 
 <!-- Slide 7: Step 2 - Plan -->
-<div class="slide">
-    <div class="section-label">Step 2</div>
-    <h2>Create a Plan</h2>
-    <p>Define the <span class="emphasis">"what"</span> — the high-level requirements</p>
+<div class="slide code-slide">
+    <div>
+        <div class="section-label">Step 2</div>
+        <h2>Create a Plan</h2>
+        <p>Define the <span class="emphasis">"what"</span> — the high-level requirements</p>
+    </div>
     <pre><code># Product Requirements
 
 ## Core User Experience
@@ -295,10 +406,12 @@ Three-column layout:
 </div>
 
 <!-- Slide 8: Step 3 - Todos -->
-<div class="slide">
-    <div class="section-label">Step 3</div>
-    <h2>Break Into Small Todos</h2>
-    <p>Convert plan into <span class="emphasis">specific, testable steps</span></p>
+<div class="slide code-slide">
+    <div>
+        <div class="section-label">Step 3</div>
+        <h2>Break Into Small Todos</h2>
+        <p>Convert plan into <span class="emphasis">specific, testable steps</span></p>
+    </div>
     <pre><code># Development Plan
 
 ## Step 1: Verify starter app runs
@@ -432,7 +545,7 @@ Three-column layout:
 </div>
 
 <!-- Slide 17: End -->
-<div class="slide">
+<div class="slide title-slide">
     <h1>Build Better Code</h1>
     <p class="subtitle">One Small Step at a Time</p>
 </div>
@@ -442,9 +555,9 @@ Three-column layout:
     <div class="section-label">Next Steps</div>
     <h2>Join Our Courses & Workshops</h2>
 
-    <div style="display: flex; align-items: center; justify-content: center; gap: 3rem; margin: 2rem 0;">
+    <div class="cta-row">
         <div style="text-align: center;">
-            <img src="bit.ly_4oHyTbY.png" alt="Course QR Code" style="width: 200px; height: 200px; margin-bottom: 1rem;">
+            <img src="bit.ly_4oHyTbY.png" alt="Course QR Code" style="margin-bottom: 1rem;">
             <p class="emphasis">Scan for Course Access</p>
             <p class="small-text">Use promo code <span class="highlight">Hugo</span> for discount</p>
         </div>
@@ -498,14 +611,6 @@ Three-column layout:
             nextSlide();
         } else if (e.key === 'ArrowLeft') {
             e.preventDefault();
-            prevSlide();
-        }
-    });
-
-    document.addEventListener('click', (e) => {
-        if (e.clientX > window.innerWidth / 2) {
-            nextSlide();
-        } else {
             prevSlide();
         }
     });
